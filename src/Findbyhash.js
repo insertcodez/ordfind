@@ -253,8 +253,9 @@ export default function Findbyhash() {
     console.log("Input value:", inputValue);
     const isId = /^\d+$/.test(inputValue);
 
-    if (isId && inputValue <= blockHeight && inputValue >= 0) {
+    if (isId && inputValue <= blockHeight && inputValue >= 1) {
       if (searchedID == inputValue) {
+        setInvalidInput(false);
         return;
       }
       handleLoad();
@@ -711,7 +712,7 @@ export default function Findbyhash() {
                           }}
                         >
                           {result
-                            ? `The Original inscription is ${result.id.N}`
+                            ? `The Original inscription is #${result.id.N}`
                             : "You can make an Original Inscription of this file."}
                         </Typography>
                       </>
