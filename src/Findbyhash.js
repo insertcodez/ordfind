@@ -347,7 +347,7 @@ export default function Findbyhash() {
               },
             }}
           >
-            Find Original Ordinals Inscriptions
+            Find & Verify Original Ordinals Inscriptions
           </Typography>
           <Typography
             col={2}
