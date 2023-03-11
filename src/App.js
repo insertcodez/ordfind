@@ -2,7 +2,7 @@ import "./App.css";
 import Collectiontable from "./Collectiontable";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import Findbyhash from "./Findbyhash";
 
