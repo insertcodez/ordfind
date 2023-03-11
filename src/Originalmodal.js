@@ -71,7 +71,7 @@ export default function BasicModal() {
           Which files are supported?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem" }}>
-          These are the popular file types that are supported : ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi, .txt, .json".
+          Image & Video file types that are supported : ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi".
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem", color:"#F2B843" }}>
           How is this data collected?

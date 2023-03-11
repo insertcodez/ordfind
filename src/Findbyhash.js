@@ -86,7 +86,7 @@ export default function Findbyhash() {
             paddingRight: "20px",
           }}
         >
-          Upload Image / supported file
+          Upload Image / Video
         </span>
       );
     }
@@ -556,8 +556,7 @@ export default function Findbyhash() {
               color: "#F2B843",
             }}
           >
-            *Only ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi,
-            .txt, .json" inscriptions are supported.
+            *Only ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi" inscriptions are supported.
           </Typography>
         </Box>
 
@@ -757,7 +756,7 @@ export default function Findbyhash() {
                   </Typography>
                 )}
 
-                {result && (
+                {result && !invalidInput && (
                   <>
                     <Button
                       variant="contained"
