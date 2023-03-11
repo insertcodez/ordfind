@@ -13,8 +13,8 @@ const style = {
     xs: "90%",
     sm: "auto",
     md: "auto",
-    lg: 400,
-    xl: 400,
+    lg: 500,
+    xl: 500,
   },
   bgcolor: 'background.paper',
   border: '2px solid #000',
@@ -29,10 +29,10 @@ const style = {
   },
   height: {
     xs: "90%",
-    sm: "auto",
-    md: "auto",
-    lg: 700,
-    xl: "auto",
+    sm: "80%",
+    md: "80%",
+    lg: "auto 90%",
+    xl: "auto 80%",
   },
     display:'block'
 };
