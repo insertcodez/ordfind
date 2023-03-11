@@ -280,7 +280,6 @@ export default function Findbyhash() {
       }
     } else {
       setInvalidInput(true);
-      setResult();
       setLoading(false);
     }
   };
