@@ -1,0 +1,52 @@
+.App-header {
+    background-color: #1A2027;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  @media (min-width: 0px) {
+    .logo {
+      max-width: 45%;
+    }
+  }
+  
+  @media (min-width: 620px) {
+    .logo {
+      max-width: 30%;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .logo {
+      max-width: 25%;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .logo {
+      max-width: 23%;
+    }
+  }
+
+  @media (min-width: 1060px) {
+    .logo {
+      max-width: 200px;
+    }
+  }
+
+  .button-container {
+    display: inline-block;
+    border: 2px solid black; /* set the border thickness and color */
+    padding: 10px; /* add some padding inside the container */
+    border-radius: 10px; /* set the border radius to make it look more like a square */
+  }
+  
+  .button-container button {
+    margin: 5px; /* add some margin around the buttons to separate them from the border */
+  }
+  
