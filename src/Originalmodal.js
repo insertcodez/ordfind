@@ -31,7 +31,7 @@ const style = {
     xs: "90%",
     sm: "80%",
     md: "80%",
-    lg: "auto 90%",
+    lg: "auto 80%",
     xl: "auto 80%",
   },
     display:'block'
