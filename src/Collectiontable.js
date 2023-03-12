@@ -337,7 +337,7 @@ function EnhancedTableToolbar(props) {
 }
 
 const Row = React.forwardRef((props, ref) => {
-  const { row, isOpen, onClick } = props;
+  const { row, isOpen, onClick, searched } = props;
   const ordinalLabels = [
     "1st",
     "2nd",
@@ -355,7 +355,7 @@ const Row = React.forwardRef((props, ref) => {
     <React.Fragment>
       <TableRow
       ref={ref}
-        className={row.ordinalmatch ? "unavailable-row" : "available-row"}
+        className={row.token_id == searched ? "unavailable-row" : "available-row"}
         sx={{
           "& > *": {
             borderBottom: "unset",
@@ -1273,7 +1273,7 @@ export default function Collectiontable() {
             </Button>
           </div>
 
-          <Paper
+          <Paper ref={searchedDataRowRef}
             sx={{
               width: "100%",
               mb: 2,
@@ -1360,8 +1360,9 @@ export default function Collectiontable() {
                     <>
                       {searchedData && (
                         <Row
-                        ref={searchedDataRowRef}
+                        
                           key={searchedData.token_id}
+                          searched = {searchedData.token_id}
                           row={searchedData}
                           isOpen={openRowIndex === -2}
                           onClick={() => handleRowClick(-2)}

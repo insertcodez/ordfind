@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -28,6 +28,7 @@ export default function Findbyhash() {
   const [notOri, setNotOri] = useState(false);
   const [open, setOpen] = useState(false);
   const [fail, setFail] = useState(false);
+  const [searchedData, setSearchedData] = useState(false);
   const [openQuery, setOpenQuery] = useState(false);
   const allowedFileTypes = [
     "image/png",
@@ -38,6 +39,14 @@ export default function Findbyhash() {
     "image/gif",
   ];
   const dynamodb = new AWS.DynamoDB();
+  const searchedDataRowRef = useRef(null);
+
+
+  useEffect(() => {
+    if (searchedData && searchedDataRowRef.current) {
+      searchedDataRowRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [searchedData]);
 
   AWS.config.update({
     region: process.env.REACT_APP_AWS_REGION,
@@ -214,6 +223,7 @@ export default function Findbyhash() {
       const hashHex = sha256(buffer);
       if (hashHex == hash) {
         setLoading(false);
+        handleSame();
         return;
       }
       setHash(hashHex);
@@ -221,9 +231,11 @@ export default function Findbyhash() {
       if (objectByHash) {
         setResult(objectByHash);
         setLoading(false);
+        handleSearched();
       } else {
         setResult();
         setLoading(false);
+        handleSearched();
       }
     };
     reader.readAsArrayBuffer(selectedFile);
@@ -248,6 +260,30 @@ export default function Findbyhash() {
     }, 4000);
   };
 
+  const handleSearched = () => {
+    const checkLoading = setInterval(() => {
+      if (!isLoading) {
+        clearInterval(checkLoading);
+        setTimeout(() => {
+          setSearchedData(true);
+          setTimeout(() => {
+            setSearchedData(false);
+          }, 2000);
+        }, 4000);
+      }
+    }, 100);
+  };
+
+  const handleSame = () => {
+    setTimeout(() => {
+      setSearchedData(true);
+      setTimeout(() => {
+        setSearchedData(false);
+      }, 2000);
+    }, 1000);
+  };
+  
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("Input value:", inputValue);
@@ -256,6 +292,7 @@ export default function Findbyhash() {
     if (isId && inputValue <= blockHeight && inputValue >= 1) {
       if (searchedID == inputValue) {
         setInvalidInput(false);
+        handleSame();
         return;
       }
       handleLoad();
@@ -274,13 +311,16 @@ export default function Findbyhash() {
         }
 
         setLoading(false);
+        handleSearched();
       } else {
         setResult();
         setLoading(false);
+        handleSearched();
       }
     } else {
       setInvalidInput(true);
       setLoading(false);
+      handleSearched();
     }
   };
 
@@ -582,7 +622,7 @@ export default function Findbyhash() {
               wordWrap: "break-word",
             }}
           >
-            <span style={{ color: "#F8F8FF" }}>Result :</span>
+            <span ref={searchedDataRowRef} style={{ color: "#F8F8FF" }}>Result :</span>
           </Typography>
         </div>
         <div
