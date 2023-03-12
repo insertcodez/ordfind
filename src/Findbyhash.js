@@ -1,4 +1,5 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -14,6 +15,7 @@ import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 import Originalmodal from "./Originalmodal";
 import AWS from "aws-sdk";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 export default function Findbyhash() {
   const [file, setFile] = useState(null);
@@ -44,9 +46,13 @@ export default function Findbyhash() {
 
   useEffect(() => {
     if (searchedData && searchedDataRowRef.current) {
-      searchedDataRowRef.current.scrollIntoView({ behavior: 'smooth' });
+      searchedDataRowRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [searchedData]);
+
+  const handlePage = () => {
+    window.location.hash = '#/collections';
+  };
 
   AWS.config.update({
     region: process.env.REACT_APP_AWS_REGION,
@@ -282,8 +288,7 @@ export default function Findbyhash() {
       }, 2000);
     }, 1000);
   };
-  
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("Input value:", inputValue);
@@ -335,12 +340,14 @@ export default function Findbyhash() {
     <div className="App-header">
       <Box sx={{ width: "90%", maxWidth: "1080px", mb: "2rem", mt: "2rem" }}>
         <div style={{ alignContent: "flex-start", display: "flex" }}>
+        <Link to="/">
           <img
             className="logo"
             src="/ORDFIND.png"
             alt="Logo"
             style={{ float: "left" }}
           />
+          </Link>
         </div>
         <div style={{ position: "relative", pt: "5px" }}>
           <Snackbar
@@ -375,7 +382,7 @@ export default function Findbyhash() {
           />
         </div>
 
-        <Box sx={{ flex: "1 1 100%", mb: "2rem", mt: "3rem" }}>
+        <Box sx={{ flex: "1 1 100%", mb: "1rem", mt: "3rem" }}>
           <Typography
             sx={{
               fontSize: {
@@ -414,6 +421,62 @@ export default function Findbyhash() {
             <span>{blockHeight}</span>
           </Typography>
           <Originalmodal />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            borderRadius: "5px",
+
+            width: {
+              xs: "80%",
+              sm: "55%",
+              md: "50%",
+              lg: "45%",
+              xl: "40%",
+            },
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Button
+            onClick={handlePage}
+            sx={{
+              background: "linear-gradient(45deg, #3d3ec2, #f2b843)",
+              backgroundSize: "100% 100%",
+              color: "#f8f8ff",
+              mb: "30px",
+              textTransform: "none",
+              fontSize: {
+                xs: "1.0rem",
+                sm: "1.0rem",
+                md: "1.1rem",
+                lg: "1.1rem",
+                xl: "1.1rem",
+              },
+              animation: "gradientShift 5s ease infinite",
+              "&:hover": {
+                color: "#f8f8ff",
+                background: "linear-gradient(45deg, #f2b843, #3d3ec2)",
+              },
+              // "&:hover": { color: "#f8f8ff", backgroundColor: "#4957a5" },
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                lineHeight: "1.2",
+              }}
+            >
+              You can now find ETH Collection Ordinal Inscriptions Here
+              <span style={{ marginLeft: "5px" }}>
+                <KeyboardDoubleArrowRightIcon />
+              </span>
+            </div>
+          </Button>
         </Box>
         <input
           id="fileInput"
@@ -596,7 +659,8 @@ export default function Findbyhash() {
               color: "#F2B843",
             }}
           >
-            *Only ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi" inscriptions are supported.
+            *Only ".jpg, .jpeg, .png, .webp, .bmp, .gif, .mp4, .mov, .wmv, .avi"
+            inscriptions are supported.
           </Typography>
         </Box>
 
@@ -622,7 +686,9 @@ export default function Findbyhash() {
               wordWrap: "break-word",
             }}
           >
-            <span ref={searchedDataRowRef} style={{ color: "#F8F8FF" }}>Result :</span>
+            <span ref={searchedDataRowRef} style={{ color: "#F8F8FF" }}>
+              Result :
+            </span>
           </Typography>
         </div>
         <div
@@ -865,66 +931,6 @@ export default function Findbyhash() {
             )}
           </Box>
         </div>
-        {/* <Box
-          sx={{
-            position: "fixed",
-            bottom: 15,
-            left: 0,
-            right: 0,
-            marginBottom: "1rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            width: {
-              xs: "80%",
-              sm: "55%",
-              md: "50%",
-              lg: "45%",
-              xl: "40%",
-            },
-            margin: "auto",
-          }}
-        >
-          <Typography
-            col={2}
-            sx={{
-              fontSize: {
-                xs: "0.9rem",
-                sm: "0.9rem",
-                md: "1.1rem",
-                lg: "1.1rem",
-                xl: "1.1rem",
-              },
-              pt: "5px",
-              wordWrap: "break-word",
-              color: "#F2B843",
-            }}
-          >
-            Disclaimer :
-          </Typography>
-          <Typography
-            col={2}
-            sx={{
-              fontSize: {
-                xs: "0.8rem",
-                sm: "0.8rem",
-                md: "0.9rem",
-                lg: "0.9rem",
-                xl: "0.9rem",
-              },
-              pt: "5px",
-              wordWrap: "break-word",
-              color: "#F2B843",
-            }}
-          >
-            
-            Information provided on this website is for informational purposes
-            only. The owner of this website shall not be held responsible for
-            any actions you may take based on the information provided on this
-            page. Nothing on this page should be construed as financial advice.
-          </Typography>
-        </Box> */}
       </Box>
       <Disclaimermodal />
     </div>

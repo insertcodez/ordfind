@@ -59,7 +59,7 @@ export default function BasicModal() {
             FAQ
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem" }}>
-          Original Ordinal Inscriptions refers to the very first Ordinal Inscription of a file identified by its unique SHA-256 value.
+          Original Ordinal Inscriptions refers to the very first Ordinal Inscriptions of a file identified by its unique SHA-256 value.
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem", color:"#F2B843" }}>
           How to use the tool?

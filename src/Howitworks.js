@@ -59,13 +59,13 @@ export default function BasicModal() {
             FAQ
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem" }}>
-          Original Ordinal Inscriptions refers to the very first Ordinal Inscription of a file identified by its unique SHA-256 value.
+          Original Ordinal Inscriptions refers to the very first Ordinal Inscriptions of a file identified by its unique SHA-256 value.
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem", color:"#F2B843" }}>
           How is this data collected?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem" }}>
-          Ordinal Inscriptions are passed into a SHA-256 hashing algorithm that calculates the hash value of the inscribed file byte-to-byte. These hashes are then compared with the image hash of the original NFT collection on the Ethereum blockchain. The first Ordinal Inscription that matches the Eth collection image hash exactly byte-to-byte is the Original Inscription which gets populated on the list.
+          Every Ordinal Inscriptions are passed into a SHA-256 hashing algorithm that calculates the hash value of the inscribed file byte-to-byte. These hashes are then compared with the image hash of the original NFT collection on the Ethereum blockchain. The first Ordinal Inscription that matches the Eth collection image hash exactly byte-to-byte is the Original Inscription which gets populated on the list.
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize:"1rem", color:"#F2B843" }}>
           I inscribed my Ethereum NFT image as ordinal but its not showing up on the list. Why?

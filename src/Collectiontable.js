@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, forwardRef, useRef } from "react";
+import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -267,7 +268,7 @@ function EnhancedTableToolbar(props) {
           )}
         </Typography>
         <LightTooltip
-          title="This is the latest inscription height scanned."
+          title="This is the latest inscription height synced."
           followCursor
         >
           <Typography
@@ -420,7 +421,7 @@ const Row = React.forwardRef((props, ref) => {
           }}
           align="right"
         >
-          <LightTooltip title="Inscription #Number" followCursor>
+          <LightTooltip title="Original Inscription #" followCursor>
             <span>
               {row.ordinalmatch ? row.ordinalmatch[0].id : "Not Inscribed"}
             </span>
@@ -1035,12 +1036,14 @@ export default function Collectiontable() {
         <Collectiondisclaimer />
         <Box sx={{ width: "90%", maxWidth: "1080px", mb: "2rem" }}>
           <div style={{ alignContent: "flex-start", display: "flex" }}>
-            <img
-              className="logo"
-              src="/ORDFIND.png"
-              alt="Logo"
-              style={{ float: "left", }}
-            />
+          <Link to="/">
+          <img
+            className="logo"
+            src="/ORDFIND.png"
+            alt="Logo"
+            style={{ float: "left" }}
+          />
+          </Link>
           </div>
           <div style={{ position: "relative", pt: "5px" }}>
             <Snackbar
@@ -1069,9 +1072,17 @@ export default function Collectiontable() {
                   lg: "2.3rem",
                   xl: "2.3rem",
                 },
+                maxWidth: {
+                  xs: "90%",
+                  sm: "80%",
+                  md: "80%",
+                  lg: "80%",
+                  xl: "80%",
+                },
+                margin: "auto"
               }}
             >
-              Find Original Ordinal Inscriptions of Eth NFT Collections
+              Find & Verify Original Ordinal Inscriptions of ETH NFT Collections
               
             </Typography>
 
@@ -1249,7 +1260,7 @@ export default function Collectiontable() {
                     backgroundColor: "#F2B843",
                   },
               }}
-              label="Search Inscription #Number"
+              label="Search Inscription #"
               value={insId}
               onChange={handleChangeInsId}
               style={{ marginRight: "1rem" }}
