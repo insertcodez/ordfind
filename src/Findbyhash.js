@@ -207,6 +207,7 @@ export default function Findbyhash() {
   };
 
   const handleFileChange = async (event) => {
+    handleSame();
     const selectedFile = event.target.files[0];
     if (!selectedFile) {
       return;
@@ -223,7 +224,6 @@ export default function Findbyhash() {
       const hashHex = sha256(buffer);
       if (hashHex == hash) {
         setLoading(false);
-        handleSame();
         return;
       }
       setHash(hashHex);
