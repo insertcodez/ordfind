@@ -11,7 +11,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: {
     xs: "90%",
-    sm: "auto",
+    sm: "70%",
     md: "auto",
     lg: 500,
     xl: 500,
@@ -20,21 +20,11 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  overflow: {
-    xs: "scroll",
-    sm: "scroll",
-    md: "auto",
-    lg: "scroll",
-    xl: "auto",
-  },
-  height: {
-    xs: "90%",
-    sm: "80%",
-    md: "80%",
-    lg: "auto 80%",
-    xl: "auto 80%",
-  },
-    display:'block'
+  overflow:"auto",
+  height: "auto",
+    display:'block',
+    maxHeight: "90vh",
+    maxWidth: "90vw",
 };
 
 export default function BasicModal() {
@@ -44,7 +34,7 @@ export default function BasicModal() {
 
   return (
     
-    <Box sx={{ display: "flex", justifyContent: "flex-start", flex: "1 1 100%", my: "1rem" }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-start", flex: "1 1 100vh", my: "1rem" }}>
     <Button style={{textDecoration:"underline", color: "#f2b843"}} onClick={handleOpen}>How is this data collected?</Button>
       
     

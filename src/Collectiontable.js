@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, forwardRef, useRef } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -34,6 +34,7 @@ import Howitworks from "./Howitworks";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 import Collectiondisclaimer from "./Collectiondisclaimer";
+import Viewmodal from "./Viewmodal";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -192,8 +193,8 @@ function EnhancedTableHead(props) {
               xs: "none",
               sm: "table-cell",
               md: "table-cell",
-              lg: "none",
-              xl: "none",
+              lg: "table-cell",
+              xl: "table-cell",
             },
           }}
           padding="checkbox"
@@ -338,7 +339,7 @@ function EnhancedTableToolbar(props) {
 }
 
 const Row = React.forwardRef((props, ref) => {
-  const { row, isOpen, onClick, searched } = props;
+  const { row, isOpen, onClick, searched, collectionName } = props;
   const ordinalLabels = [
     "1st",
     "2nd",
@@ -355,8 +356,10 @@ const Row = React.forwardRef((props, ref) => {
   return (
     <React.Fragment>
       <TableRow
-      ref={ref}
-        className={row.token_id == searched ? "unavailable-row" : "available-row"}
+        ref={ref}
+        className={
+          row.token_id == searched ? "unavailable-row" : "available-row"
+        }
         sx={{
           "& > *": {
             borderBottom: "unset",
@@ -365,8 +368,8 @@ const Row = React.forwardRef((props, ref) => {
               xs: "pointer",
               sm: "pointer",
               md: "pointer",
-              lg: "default",
-              xl: "default",
+              lg: "pointer",
+              xl: "pointer",
             },
           },
         }}
@@ -576,8 +579,8 @@ const Row = React.forwardRef((props, ref) => {
               xs: "none",
               sm: "table-cell",
               md: "table-cell",
-              lg: "none",
-              xl: "none",
+              lg: "table-cell",
+              xl: "table-cell",
             },
           }}
         >
@@ -614,8 +617,8 @@ const Row = React.forwardRef((props, ref) => {
             xs: "table-row",
             sm: "table-row",
             md: "table-row",
-            lg: "none",
-            xl: "none",
+            lg: "table-row",
+            xl: "table-row",
           },
         }}
       >
@@ -626,7 +629,7 @@ const Row = React.forwardRef((props, ref) => {
                 <Typography
                   sx={{
                     fontWeight: 700,
-                    fontSize: "1rem",
+                    fontSize: "1.2rem",
                     lineHeight: "1.2",
                     textAlign: "left",
                     py: "0.3rem",
@@ -636,33 +639,7 @@ const Row = React.forwardRef((props, ref) => {
                   component="div"
                 >
                   <span style={{ color: "#F2B843" }}>
-                    Token ID #{row.token_id}
-                  </span>
-                </Typography>
-              </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    lineHeight: "1.2",
-                    textAlign: "left",
-                    py: "0.3rem",
-                    display: {
-                      xs: "display",
-                      sm: "none",
-                      md: "none",
-                      lg: "none",
-                      xl: "none",
-                    },
-                  }}
-                  variant="h6"
-                  id="tableTitle"
-                  component="div"
-                >
-                  <span>
-                    SHA-256 Hash : {row.hashfield.slice(0, 8)}...
-                    {row.hashfield.slice(-8)}{" "}
+                    {collectionName} #{row.token_id}
                   </span>
                 </Typography>
               </div>
@@ -677,30 +654,46 @@ const Row = React.forwardRef((props, ref) => {
                     display: {
                       xs: "display",
                       sm: "display",
-                      md: "none",
-                      lg: "none",
-                      xl: "none",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
+                    },
+                    mt: 1,
+                  }}
+                >
+                  Status : {row.ordinalmatch ? "Inscribed" : "Not Inscribed"}
+                </Typography>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    lineHeight: "1.2",
+                    textAlign: "left",
+                    wordBreak: "break-all",
+                    mt: "5px",
+                    display: {
+                      xs: "display",
+                      sm: "display",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
                     },
                   }}
                 >
-                  <span style={{ display: "flex", alignItems: "center" }}>
-                    View Image:
-                    <button
-                      type="button"
-                      onClick={() => window.open(row.image_url, "_blank")}
-                      style={{
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
-                        color: "#F2B843",
-                        display: "flex",
-                        alignItems: "center",
-                        marginLeft: "1px",
-                      }}
+                  Original Inscription :{" "}
+                  {row.ordinalmatch ? (
+                    <a
+                      href={row.ordinalmatch[0].url}
+                      target="_blank"
+                      style={{ color: "#F2B843", textDecoration: "underline" }}
                     >
-                      <ImageOutlinedIcon />
-                    </button>
-                  </span>
+                      #{row.ordinalmatch[0].id}
+                    </a>
+                  ) : (
+                    "-"
+                  )}
                 </Typography>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -711,20 +704,28 @@ const Row = React.forwardRef((props, ref) => {
                     lineHeight: "1.2",
                     textAlign: "left",
                     wordBreak: "break-all",
+                    mt: "5px",
                     display: {
                       xs: "display",
                       sm: "display",
-                      md: "none",
-                      lg: "none",
-                      xl: "none",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
                     },
                   }}
                 >
                   <span style={{ display: "flex", alignItems: "center" }}>
-                    View In Ordinals.com :
+                    OrdSwap :
                     <button
                       type="button"
-                      onClick={() => window.open(row.ordinalmatch[0].url, "_blank")}
+                      onClick={() =>
+                        window.open(
+                          `https://ordswap.io/inscription/${row.ordinalmatch[0].url
+                            .split("/")
+                            .slice(-1)}`,
+                          "_blank"
+                        )
+                      }
                       style={{
                         border: "none",
                         background: "none",
@@ -752,23 +753,16 @@ const Row = React.forwardRef((props, ref) => {
                       xs: "display",
                       sm: "display",
                       md: "display",
-                      lg: "none",
-                      xl: "none",
+                      lg: "display",
+                      xl: "display",
                     },
                   }}
                 >
                   <span style={{ display: "flex", alignItems: "center" }}>
-                    View In OrdSwap :
+                    Original Image:
                     <button
                       type="button"
-                      onClick={() =>
-                        window.open(
-                          `https://ordswap.io/inscription/${row.ordinalmatch[0].url
-                            .split("/")
-                            .slice(-1)}`,
-                          "_blank"
-                        )
-                      }
+                      onClick={() => window.open(row.image_url, "_blank")}
                       style={{
                         border: "none",
                         background: "none",
@@ -779,8 +773,35 @@ const Row = React.forwardRef((props, ref) => {
                         marginLeft: "1px",
                       }}
                     >
-                      <OpenInNewRoundedIcon />
+                      <ImageOutlinedIcon />
                     </button>
+                  </span>
+                </Typography>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    lineHeight: "1.2",
+                    textAlign: "left",
+                    py: "0.3rem",
+                    display: {
+                      xs: "display",
+                      sm: "display",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
+                    },
+                  }}
+                  variant="h6"
+                  id="tableTitle"
+                  component="div"
+                >
+                  <span>
+                    SHA-256 Hash : {row.hashfield.slice(0, 8)}...
+                    {row.hashfield.slice(-8)}{" "}
                   </span>
                 </Typography>
               </div>
@@ -790,7 +811,7 @@ const Row = React.forwardRef((props, ref) => {
       </TableRow>
     </React.Fragment>
   );
-})
+});
 
 export default function Collectiontable() {
   const [order, setOrder] = React.useState("asc");
@@ -814,11 +835,13 @@ export default function Collectiontable() {
   const [totalInscribed, setTotalInscribed] = useState(0);
   const [open, setOpen] = React.useState(false);
   const searchedDataRowRef = useRef(null);
-
+  const [openView, setOpenView] = useState(false);
+  const handleViewOpen = () => setOpenView(true);
+  const handleViewClose = () => setOpenView(false);
 
   useEffect(() => {
     if (searchedData && searchedDataRowRef.current) {
-      searchedDataRowRef.current.scrollIntoView({ behavior: 'smooth' });
+      searchedDataRowRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [searchedData]);
 
@@ -876,25 +899,22 @@ export default function Collectiontable() {
   };
 
   const handleSearch = () => {
-    if (openRowIndex !== -2) {
-      handleRowClick(-2);
-    }
     const searchData = jsonData.find(
       (obj) => obj.token_id === token.toString()
     );
     setSearchedData(searchData);
+    if (!searchData) {
+      handleClick();
+    } else {
+      handleViewOpen(true);
+    }
   };
 
   const handleSearchInscription = () => {
-    if (openRowIndex !== -2) {
-      handleRowClick(-2);
-    }
     const searchData = jsonData.find((obj) => {
-      if (obj.ordinalmatch) {
-        for (let i = 0; i < obj.ordinalmatch.length; i++) {
-          if (obj.ordinalmatch[i].id == insId) {
-            return true;
-          }
+      if (obj.ordinalmatch && obj.ordinalmatch.length > 0) {
+        if (obj.ordinalmatch[0].id == insId) {
+          return true;
         }
       }
       return false;
@@ -902,6 +922,8 @@ export default function Collectiontable() {
     setSearchedData(searchData);
     if (!searchData) {
       handleClick();
+    } else {
+      handleViewOpen(true);
     }
   };
 
@@ -942,7 +964,7 @@ export default function Collectiontable() {
           };
         });
         setCollectionList(formattedData);
-        
+
         setCollection(formattedData[0]);
       })
       .catch((error) => console.log(error));
@@ -951,19 +973,19 @@ export default function Collectiontable() {
   useEffect(() => {
     setLoading(true);
     if (collection && collection.value) {
-    fetch(`${process.env.REACT_APP_DATA_URL}${collection.value}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setJsonData(data.tokens);
-        setSortedData(data.tokens);
-        setLoading(false);
-        setLoading(false);
-        setCollectionName(data.collectionName);
-        setContractAddress(data.contractAddress);
-        setCollectionSupply(data.collectionSupply);
-        setTotalInscribed(data.totalInscribed);
-      })
-      .catch((error) => console.log(error));
+      fetch(`${process.env.REACT_APP_DATA_URL}${collection.value}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setJsonData(data.tokens);
+          setSortedData(data.tokens);
+          setLoading(false);
+          setLoading(false);
+          setCollectionName(data.collectionName);
+          setContractAddress(data.contractAddress);
+          setCollectionSupply(data.collectionSupply);
+          setTotalInscribed(data.totalInscribed);
+        })
+        .catch((error) => console.log(error));
     }
   }, [collection]);
 
@@ -999,8 +1021,7 @@ export default function Collectiontable() {
       });
 
       setSortedData(sortData);
-    }
-    else if (property === "inscription") {
+    } else if (property === "inscription") {
       const sortData = jsonData
         .filter((obj) => obj.hasOwnProperty("ordinalmatch"))
         .sort((a, b) =>
@@ -1034,16 +1055,26 @@ export default function Collectiontable() {
     <div className="App-header">
       <>
         <Collectiondisclaimer />
+        {openView && searchedData && (
+          <Viewmodal
+            currentData={searchedData}
+            openView={openView}
+            handleViewOpen={handleViewOpen}
+            handleViewClose={handleViewClose}
+            collectionLabel={collectionName}
+          />
+        )}
+
         <Box sx={{ width: "90%", maxWidth: "1080px", mb: "2rem" }}>
           <div style={{ alignContent: "flex-start", display: "flex" }}>
-          <Link to="/">
-          <img
-            className="logo"
-            src="/ORDFIND.png"
-            alt="Logo"
-            style={{ float: "left" }}
-          />
-          </Link>
+            <Link to="/">
+              <img
+                className="logo"
+                src="/ORDFIND.png"
+                alt="Logo"
+                style={{ float: "left" }}
+              />
+            </Link>
           </div>
           <div style={{ position: "relative", pt: "5px" }}>
             <Snackbar
@@ -1079,11 +1110,10 @@ export default function Collectiontable() {
                   lg: "80%",
                   xl: "80%",
                 },
-                margin: "auto"
+                margin: "auto",
               }}
             >
               Find & Verify Original Ordinal Inscriptions of ETH NFT Collections
-              
             </Typography>
 
             <p style={{ fontSize: "1.5rem" }}></p>
@@ -1284,7 +1314,8 @@ export default function Collectiontable() {
             </Button>
           </div>
 
-          <Paper ref={searchedDataRowRef}
+          <Paper
+            ref={searchedDataRowRef}
             sx={{
               width: "100%",
               mb: 2,
@@ -1369,16 +1400,6 @@ export default function Collectiontable() {
                     ))
                   ) : (
                     <>
-                      {searchedData && (
-                        <Row
-                        
-                          key={searchedData.token_id}
-                          searched = {searchedData.token_id}
-                          row={searchedData}
-                          isOpen={openRowIndex === -2}
-                          onClick={() => handleRowClick(-2)}
-                        />
-                      )}
                       {stableSort(sortedData, getComparator(order, orderBy))
                         .slice(
                           page * rowsPerPage,
@@ -1391,6 +1412,7 @@ export default function Collectiontable() {
                               row={data}
                               isOpen={openRowIndex === index}
                               onClick={() => handleRowClick(index)}
+                              collectionName={collectionName}
                             />
                           );
                         })}
