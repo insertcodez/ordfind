@@ -158,8 +158,8 @@ export default function BasicModal(props) {
               id="modal-modal-description"
               sx={{ fontSize: "1.1rem" }}
             >
-              SHA-256 Hash : {currentData.hashfield.slice(0, 8)}...
-                    {currentData.hashfield.slice(-8)}{" "}
+              SHA-256 Hash : {currentData.hashfield.slice(0, 6)}...
+                    {currentData.hashfield.slice(-6)}{" "}
             </Typography>
 
             <Button
