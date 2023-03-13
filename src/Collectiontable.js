@@ -684,6 +684,7 @@ function Row (props) {
                 </Typography>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
+              {row.ordinalmatch ? (
                 <Typography
                   sx={{
                     fontWeight: 700,
@@ -727,6 +728,29 @@ function Row (props) {
                     </button>
                   </span>
                 </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    lineHeight: "1.2",
+                    textAlign: "left",
+                    wordBreak: "break-all",
+                    mt: "5px",
+                    display: {
+                      xs: "display",
+                      sm: "display",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
+                    },
+                  }}
+                >
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    OrdSwap : -
+                  </span>
+                </Typography>
+              )}
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
