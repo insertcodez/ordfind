@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, forwardRef, useRef } from "react";
+import { useState, useEffect, } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -338,25 +338,12 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-const Row = React.forwardRef((props, ref) => {
+function Row (props) {
   const { row, isOpen, onClick, searched, collectionName } = props;
-  const ordinalLabels = [
-    "1st",
-    "2nd",
-    "3rd",
-    "4th",
-    "5th",
-    "6th",
-    "7th",
-    "8th",
-    "9th",
-    "10th",
-  ];
 
   return (
     <React.Fragment>
       <TableRow
-        ref={ref}
         className={
           row.token_id == searched ? "unavailable-row" : "available-row"
         }
@@ -811,7 +798,7 @@ const Row = React.forwardRef((props, ref) => {
       </TableRow>
     </React.Fragment>
   );
-});
+};
 
 export default function Collectiontable() {
   const [order, setOrder] = React.useState("asc");
@@ -834,16 +821,9 @@ export default function Collectiontable() {
   const [collectionSupply, setCollectionSupply] = useState(0);
   const [totalInscribed, setTotalInscribed] = useState(0);
   const [open, setOpen] = React.useState(false);
-  const searchedDataRowRef = useRef(null);
   const [openView, setOpenView] = useState(false);
   const handleViewOpen = () => setOpenView(true);
   const handleViewClose = () => setOpenView(false);
-
-  useEffect(() => {
-    if (searchedData && searchedDataRowRef.current) {
-      searchedDataRowRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [searchedData]);
 
   const handleClick = () => {
     setOpen(true);
@@ -1315,7 +1295,7 @@ export default function Collectiontable() {
           </div>
 
           <Paper
-            ref={searchedDataRowRef}
+            
             sx={{
               width: "100%",
               mb: 2,
