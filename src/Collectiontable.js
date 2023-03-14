@@ -1180,7 +1180,7 @@ export default function Collectiontable() {
                   sx={{
                     backgroundColor: "#1D1E1F",
                     border: "2px solid",
-                    color: "ffffff",
+                    color: "#ffffff",
                     borderColor: "#3D3EC2",
                     boxShadow: "0 0 10px 0 #3D3EC2",
 
