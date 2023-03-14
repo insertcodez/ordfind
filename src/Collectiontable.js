@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -338,7 +338,7 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-function Row (props) {
+function Row(props) {
   const { row, isOpen, onClick, searched, collectionName } = props;
 
   return (
@@ -684,73 +684,73 @@ function Row (props) {
                 </Typography>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
-              {row.ordinalmatch ? (
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    lineHeight: "1.2",
-                    textAlign: "left",
-                    wordBreak: "break-all",
-                    mt: "5px",
-                    display: {
-                      xs: "display",
-                      sm: "display",
-                      md: "display",
-                      lg: "display",
-                      xl: "display",
-                    },
-                  }}
-                >
-                  <span style={{ display: "flex", alignItems: "center" }}>
-                    OrdSwap :
-                    <button
-                      type="button"
-                      onClick={() =>
-                        window.open(
-                          `https://ordswap.io/inscription/${row.ordinalmatch[0].url
-                            .split("/")
-                            .slice(-1)}`,
-                          "_blank"
-                        )
-                      }
-                      style={{
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
-                        color: "#F2B843",
-                        display: "flex",
-                        alignItems: "center",
-                        marginLeft: "1px",
-                      }}
-                    >
-                      <OpenInNewRoundedIcon />
-                    </button>
-                  </span>
-                </Typography>
-              ) : (
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    lineHeight: "1.2",
-                    textAlign: "left",
-                    wordBreak: "break-all",
-                    mt: "5px",
-                    display: {
-                      xs: "display",
-                      sm: "display",
-                      md: "display",
-                      lg: "display",
-                      xl: "display",
-                    },
-                  }}
-                >
-                  <span style={{ display: "flex", alignItems: "center" }}>
-                    OrdSwap : -
-                  </span>
-                </Typography>
-              )}
+                {row.ordinalmatch ? (
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: "1rem",
+                      lineHeight: "1.2",
+                      textAlign: "left",
+                      wordBreak: "break-all",
+                      mt: "5px",
+                      display: {
+                        xs: "display",
+                        sm: "display",
+                        md: "display",
+                        lg: "display",
+                        xl: "display",
+                      },
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                      OrdSwap :
+                      <button
+                        type="button"
+                        onClick={() =>
+                          window.open(
+                            `https://ordswap.io/inscription/${row.ordinalmatch[0].url
+                              .split("/")
+                              .slice(-1)}`,
+                            "_blank"
+                          )
+                        }
+                        style={{
+                          border: "none",
+                          background: "none",
+                          cursor: "pointer",
+                          color: "#F2B843",
+                          display: "flex",
+                          alignItems: "center",
+                          marginLeft: "1px",
+                        }}
+                      >
+                        <OpenInNewRoundedIcon />
+                      </button>
+                    </span>
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: "1rem",
+                      lineHeight: "1.2",
+                      textAlign: "left",
+                      wordBreak: "break-all",
+                      mt: "5px",
+                      display: {
+                        xs: "display",
+                        sm: "display",
+                        md: "display",
+                        lg: "display",
+                        xl: "display",
+                      },
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                      OrdSwap : -
+                    </span>
+                  </Typography>
+                )}
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
@@ -822,7 +822,7 @@ function Row (props) {
       </TableRow>
     </React.Fragment>
   );
-};
+}
 
 export default function Collectiontable() {
   const [order, setOrder] = React.useState("asc");
@@ -1167,7 +1167,7 @@ export default function Collectiontable() {
                   boxShadow: "0 0 5px 0 3D3EC2",
                 },
                 "& .MuiAutocomplete-option:hover *": {
-                  color: "3D3EC2",
+                  color: "#3D3EC2",
                   transition: "color 0.3s ease",
                 },
               }}
@@ -1179,10 +1179,20 @@ export default function Collectiontable() {
                 <Paper
                   sx={{
                     backgroundColor: "#1D1E1F",
-                    transition: "background-color 0.3s ease",
+                    border: "2px solid",
+                    color: "ffffff",
+                    borderColor: "#3D3EC2",
+                    boxShadow: "0 0 10px 0 #3D3EC2",
+
                     "&:hover": {
-                      backgroundColor: "#181919",
-                      transition: "background-color 0.3s ease",
+                      "& .MuiAutocomplete-option:hover": {
+                        backgroundColor: "rgba(242, 184, 67, 0.8) !important",
+                        color: "black",
+                      },
+                    },
+                    "& .MuiAutocomplete-option": {
+                      color: "#F2B843",
+                      backgroundColor: "#1d1e1f",
                     },
                   }}
                 >
@@ -1319,7 +1329,6 @@ export default function Collectiontable() {
           </div>
 
           <Paper
-            
             sx={{
               width: "100%",
               mb: 2,
