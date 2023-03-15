@@ -471,8 +471,8 @@ export default function Findbyhash() {
                 lineHeight: "1.2",
               }}
             >
-              You can now find ETH Collection Ordinal Inscriptions Here
-              <span style={{ marginLeft: "5px" }}>
+              Browse ETH Collections
+              <span style={{ marginLeft: "5px", display: "inline-flex", alignItems: "center" }}>
                 <KeyboardDoubleArrowRightIcon />
               </span>
             </div>
