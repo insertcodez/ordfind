@@ -110,7 +110,7 @@ export default function Tags(props) {
           <li
           {...props}
           style={{
-            backgroundColor: isOptionSelected ? 'orange' : '#262626',
+            backgroundColor: isOptionSelected ? '#f2b843' : '#262626',
         color: isOptionSelected ? 'black' : '#f8f8ff',
             fontSize: "1rem",
           }}
@@ -122,7 +122,7 @@ export default function Tags(props) {
       }}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
-          <Chip sx={{color: "#1e1e1e", backgroundColor:"#f2b843", borderColor:"f2b843", fontSize:"0.9rem", fontWeight:"700", '& .MuiChip-deleteIcon': {
+          <Chip sx={{color: "#1e1e1e", backgroundColor:"#f2b843", borderColor:"#f2b843", fontSize:"0.9rem", fontWeight:"700", '& .MuiChip-deleteIcon': {
             color: "#3D3EC2" // replace with the desired color
           }}}
             variant="outlined"
