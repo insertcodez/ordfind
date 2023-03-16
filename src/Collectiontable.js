@@ -35,6 +35,7 @@ import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 import Collectiondisclaimer from "./Collectiondisclaimer";
 import Viewmodal from "./Viewmodal";
+import Select from "./Select";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -78,7 +79,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "token_ID",
+    id: "token_id",
     numeric: false,
     disablePadding: false,
     label: "Token ID",
@@ -218,6 +219,14 @@ function EnhancedTableToolbar(props) {
     loading,
     collectionSupply,
     totalInscribed,
+    traits,
+    handleKeyPress,
+    token,
+    handleChangeToken,
+    insId,
+    handleChangeInsId,
+    handleButtonPress,
+    filterData,
   } = props;
   return (
     <Toolbar
@@ -231,7 +240,13 @@ function EnhancedTableToolbar(props) {
       }}
     >
       <Box
-        sx={{ flex: "1 1 100%", my: "1rem", my: { xs: "0.5rem", sm: "1rem" } }}
+        sx={{
+          paddingLeft: "0px",
+          paddingRight: "0.7rem",
+          flex: "1 1 100%",
+          my: "1rem",
+          my: { xs: "0.5rem", sm: "1rem" },
+        }}
       >
         <Typography
           sx={{
@@ -333,6 +348,125 @@ function EnhancedTableToolbar(props) {
             </Typography>
           </Grid>
         </Grid>
+        <div
+          style={{
+            marginTop: "0.5rem",
+            marginBottom: "0.5rem",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            onKeyPress={handleKeyPress}
+            sx={{
+              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#F2B843",
+              },
+              "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
+                color: "#F2B843",
+              },
+              "& .MuiAutocomplete-clearIndicator .MuiSvgIcon-root": {
+                color: "#F2B843",
+              },
+              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#F2B843",
+                boxShadow: "0 0 5px 0 #F2B843",
+              },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                {
+                  borderColor: "#3D3EC2",
+                  boxShadow: "0 0 5px 0 #3D3EC2",
+                },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
+                color: "#BCBFC3",
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#BCBFC3",
+              },
+              "& .MuiOutlinedInput-input": {
+                color: "#BCBFC3",
+              },
+              "& label.Mui-focused": {
+                color: "#3D3EC2",
+              },
+
+              "& .MuiAutocomplete-paper li.MuiAutocomplete-option.Mui-focusVisible, & .MuiAutocomplete-paper li.MuiAutocomplete-option:hover":
+                {
+                  backgroundColor: "#F2B843",
+                },
+            }}
+            label="Search Token ID"
+            value={token}
+            onChange={handleChangeToken}
+            style={{ marginRight: "1rem" }}
+          />
+          <TextField
+            onKeyPress={handleKeyPress}
+            sx={{
+              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#F2B843",
+              },
+              "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
+                color: "#F2B843",
+              },
+              "& .MuiAutocomplete-clearIndicator .MuiSvgIcon-root": {
+                color: "#F2B843",
+              },
+              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#F2B843",
+                boxShadow: "0 0 5px 0 #F2B843",
+              },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                {
+                  borderColor: "#3D3EC2",
+                  boxShadow: "0 0 5px 0 #3D3EC2",
+                },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
+                color: "#BCBFC3",
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#BCBFC3",
+              },
+              "& .MuiOutlinedInput-input": {
+                color: "#BCBFC3",
+              },
+              "& label.Mui-focused": {
+                color: "#3D3EC2",
+              },
+
+              "& .MuiAutocomplete-paper li.MuiAutocomplete-option.Mui-focusVisible, & .MuiAutocomplete-paper li.MuiAutocomplete-option:hover":
+                {
+                  backgroundColor: "#F2B843",
+                },
+            }}
+            label="Search Inscription #"
+            value={insId}
+            onChange={handleChangeInsId}
+            style={{ marginRight: "1rem" }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleButtonPress}
+            sx={{
+              backgroundColor: "#3D3EC2",
+              color: "#ffffff",
+              paddingTop: "13px",
+              paddingBottom: "13px",
+              "&:hover": {
+                backgroundColor: "#3D00C2",
+                color: "#BCBFC3",
+              },
+            }}
+          >
+            Search
+          </Button>
+        </div>
+        {traits ? (
+          <Select traits={traits} applyFilter={filterData} />
+        ) : (
+          <Skeleton animation="wave" width="100%" height={80} />
+        ) }
       </Box>
     </Toolbar>
   );
@@ -413,7 +547,17 @@ function Row(props) {
         >
           <LightTooltip title="Original Inscription #" followCursor>
             <span>
-              {row.ordinalmatch ? row.ordinalmatch[0].id : "Not Inscribed"}
+              {row.ordinalmatch ? (
+                <a
+                  href={row.ordinalmatch[0].url}
+                  target="_blank"
+                  style={{ textDecoration: "underline" }}
+                >
+                  #{row.ordinalmatch[0].id}
+                </a>
+              ) : (
+                "Not Inscribed"
+              )}
             </span>
           </LightTooltip>
         </TableCell>
@@ -611,7 +755,7 @@ function Row(props) {
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={isOpen} timeout="auto" unmountOnExit>
-            <Box sx={{ my: 1 }}>
+            <Box sx={{ marginTop:1,  marginBottom:2 }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
                   sx={{
@@ -816,6 +960,47 @@ function Row(props) {
                   </span>
                 </Typography>
               </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    lineHeight: "1.2",
+                    textAlign: "left",
+                    wordBreak: "break-all",
+                    display: {
+                      xs: "display",
+                      sm: "display",
+                      md: "display",
+                      lg: "display",
+                      xl: "display",
+                    },
+                    mt: 1,
+                  }}
+                >
+                  Traits : 
+                </Typography>
+              </div>
+              <div>
+            {row.attributes.map((trait) => (
+              <Button key={trait.value} sx={{ border:"2px solid #3d3ec2", marginRight:"0.4rem", marginTop:"0.4rem" }}>
+                
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{
+                    color: "#F2B843",
+                    fontSize: "0.9rem",
+                    
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {trait.value}
+                </Typography>
+              </Button>
+            ))}
+            </div>
             </Box>
           </Collapse>
         </TableCell>
@@ -826,7 +1011,7 @@ function Row(props) {
 
 export default function Collectiontable() {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("token_ID");
+  const [orderBy, setOrderBy] = React.useState("token_id");
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(100);
@@ -839,15 +1024,40 @@ export default function Collectiontable() {
   const [loading, setLoading] = useState(true);
   const [collection, setCollection] = useState("");
   const [collectionList, setCollectionList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState("");
   const [insId, setInsId] = useState("");
   const [searchedData, setSearchedData] = useState();
   const [collectionSupply, setCollectionSupply] = useState(0);
   const [totalInscribed, setTotalInscribed] = useState(0);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [openView, setOpenView] = useState(false);
   const handleViewOpen = () => setOpenView(true);
   const handleViewClose = () => setOpenView(false);
+  const [traits, setTraits] = useState();
+  const [filterItems, setFilterItems] = useState();
+
+  function filterData(selectedOptions) {
+    if (selectedOptions) {
+      console.log(selectedOptions);
+      const filtered = sortedData.filter((token) =>
+        selectedOptions.every((option) =>
+          token.attributes.some((attr) => attr.value == option.label)
+        )
+      );
+      if (selectedOptions.length > 0 && filtered.length <= 0 ) {
+        setNotFound(true);
+        setFilteredData([]);
+      } else {
+        setFilteredData(filtered);
+        setNotFound(false);
+        
+      }
+    } else {
+      setFilteredData([]);
+    }
+  }
 
   const handleClick = () => {
     setOpen(true);
@@ -904,7 +1114,7 @@ export default function Collectiontable() {
 
   const handleSearch = () => {
     const searchData = jsonData.find(
-      (obj) => obj.token_id === token.toString()
+      (obj) => obj.token_id == token
     );
     setSearchedData(searchData);
     if (!searchData) {
@@ -968,6 +1178,7 @@ export default function Collectiontable() {
           };
         });
         setCollectionList(formattedData);
+        console.log(formattedData);
 
         setCollection(formattedData[0]);
       })
@@ -988,6 +1199,9 @@ export default function Collectiontable() {
           setContractAddress(data.contractAddress);
           setCollectionSupply(data.collectionSupply);
           setTotalInscribed(data.totalInscribed);
+          setTraits(data.Categories);
+          console.log(data.Categories);
+          console.log(traits);
         })
         .catch((error) => console.log(error));
     }
@@ -1010,53 +1224,114 @@ export default function Collectiontable() {
   };
 
   const handleRequestSort = (event, property) => {
-    setSearchedData(null);
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+    if (filteredData.length > 0) {
+      setSearchedData(null);
+      const isAsc = orderBy === property && order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
+      setOrderBy(property);
 
-    if (property === "token_ID") {
-      const sortData = jsonData.sort((a, b) => {
-        if (isAsc) {
-          return a[property] > b[property] ? 1 : -1;
-        } else {
-          return b[property] > a[property] ? 1 : -1;
-        }
-      });
+      if (property === "token_id") {
+        const sortData = filteredData.sort((a, b) => {
+          if (isAsc) {
+            return a[property] > b[property] ? 1 : -1;
+          } else {
+            return b[property] > a[property] ? 1 : -1;
+          }
+        });
 
-      setSortedData(sortData);
-    } else if (property === "inscription") {
-      const sortData = jsonData
-        .filter((obj) => obj.hasOwnProperty("ordinalmatch"))
-        .sort((a, b) =>
-          isAsc
-            ? a.ordinalmatch[0].id - b.ordinalmatch[0].id
-            : b.ordinalmatch[0].id - a.ordinalmatch[0].id
-        )
-        .concat(jsonData.filter((obj) => !obj.hasOwnProperty("ordinalmatch")));
+        setFilteredData(sortData);
+      } else if (property === "inscription") {
+        const sortData = filteredData
+          .filter((obj) => obj.hasOwnProperty("ordinalmatch"))
+          .sort((a, b) =>
+            isAsc
+              ? a.ordinalmatch[0].id - b.ordinalmatch[0].id
+              : b.ordinalmatch[0].id - a.ordinalmatch[0].id
+          )
+          .concat(
+            jsonData.filter((obj) => !obj.hasOwnProperty("ordinalmatch"))
+          );
 
-      setSortedData(sortData);
-    } else if (property === "Status") {
-      const sortData = [...jsonData].sort((a, b) => {
-        const aHasOrdinalmatch = a.hasOwnProperty("ordinalmatch");
-        const bHasOrdinalmatch = b.hasOwnProperty("ordinalmatch");
+        setFilteredData(sortData);
+      } else if (property === "Status") {
+        const sortData = [...filteredData].sort((a, b) => {
+          const aHasOrdinalmatch = a.hasOwnProperty("ordinalmatch");
+          const bHasOrdinalmatch = b.hasOwnProperty("ordinalmatch");
 
-        if (aHasOrdinalmatch && !bHasOrdinalmatch) {
-          return isAsc ? -1 : 1;
-        } else if (!aHasOrdinalmatch && bHasOrdinalmatch) {
-          return isAsc ? 1 : -1;
-        } else {
-          const indexA = jsonData.indexOf(a);
-          const indexB = jsonData.indexOf(b);
-          return isAsc ? indexA - indexB : indexB - indexA;
-        }
-      });
-      setSortedData(sortData);
+          if (aHasOrdinalmatch && !bHasOrdinalmatch) {
+            return isAsc ? -1 : 1;
+          } else if (!aHasOrdinalmatch && bHasOrdinalmatch) {
+            return isAsc ? 1 : -1;
+          } else {
+            const indexA = jsonData.indexOf(a);
+            const indexB = jsonData.indexOf(b);
+            return isAsc ? indexA - indexB : indexB - indexA;
+          }
+        });
+        setFilteredData(sortData);
+      }
+    } else {
+      setSearchedData(null);
+      const isAsc = orderBy === property && order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
+      setOrderBy(property);
+
+      if (property === "token_id") {
+        const sortData = jsonData.sort((a, b) => {
+          if (isAsc) {
+            return a[property] > b[property] ? 1 : -1;
+          } else {
+            return b[property] > a[property] ? 1 : -1;
+          }
+        });
+
+        setSortedData(sortData);
+      } else if (property === "inscription") {
+        const sortData = jsonData
+          .filter((obj) => obj.hasOwnProperty("ordinalmatch"))
+          .sort((a, b) =>
+            isAsc
+              ? a.ordinalmatch[0].id - b.ordinalmatch[0].id
+              : b.ordinalmatch[0].id - a.ordinalmatch[0].id
+          )
+          .concat(
+            jsonData.filter((obj) => !obj.hasOwnProperty("ordinalmatch"))
+          );
+
+        setSortedData(sortData);
+      } else if (property === "Status") {
+        const sortData = [...jsonData].sort((a, b) => {
+          const aHasOrdinalmatch = a.hasOwnProperty("ordinalmatch");
+          const bHasOrdinalmatch = b.hasOwnProperty("ordinalmatch");
+
+          if (aHasOrdinalmatch && !bHasOrdinalmatch) {
+            return isAsc ? -1 : 1;
+          } else if (!aHasOrdinalmatch && bHasOrdinalmatch) {
+            return isAsc ? 1 : -1;
+          } else {
+            const indexA = jsonData.indexOf(a);
+            const indexB = jsonData.indexOf(b);
+            return isAsc ? indexA - indexB : indexB - indexA;
+          }
+        });
+        setSortedData(sortData);
+      }
     }
   };
 
+  const handleBlur = (event) => {
+    event.target.blur();
+  };
+
   return (
-    <div className="App-header">
+    <Box sx={{
+      backgroundColor:"#1A2027",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "calc(10px + 2vmin)"
+      }}>
       <>
         <Collectiondisclaimer />
         {openView && searchedData && (
@@ -1131,7 +1406,16 @@ export default function Collectiontable() {
             }}
           >
             <Autocomplete
+              onBlur={handleBlur}
               sx={{
+                width: {
+                  xs: "100%",
+                  sm: 300,
+                  md: 300,
+                  lg: 300,
+                  xl: 300,
+                },
+           
                 "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
                   color: "#F2B843",
                 },
@@ -1199,11 +1483,11 @@ export default function Collectiontable() {
                   {children}
                 </Paper>
               )}
-              style={{ width: 300, marginRight: "1rem" }}
+     
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Select Collection"
+                  label="Choose Collection"
                   variant="outlined"
                   InputLabelProps={{
                     sx: { color: "#F2B843" },
@@ -1211,121 +1495,6 @@ export default function Collectiontable() {
                 />
               )}
             />
-          </div>
-          <div
-            style={{
-              marginBottom: "2rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              onKeyPress={handleKeyPress}
-              sx={{
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#F2B843",
-                },
-                "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
-                  color: "#F2B843",
-                },
-                "& .MuiAutocomplete-clearIndicator .MuiSvgIcon-root": {
-                  color: "#F2B843",
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#F2B843",
-                  boxShadow: "0 0 5px 0 #F2B843",
-                },
-                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#3D3EC2",
-                    boxShadow: "0 0 5px 0 #3D3EC2",
-                  },
-                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input":
-                  {
-                    color: "#BCBFC3",
-                  },
-                "& .MuiInputLabel-outlined.Mui-focused": {
-                  color: "#BCBFC3",
-                },
-                "& .MuiOutlinedInput-input": {
-                  color: "#BCBFC3",
-                },
-                "& label.Mui-focused": {
-                  color: "#3D3EC2",
-                },
-
-                "& .MuiAutocomplete-paper li.MuiAutocomplete-option.Mui-focusVisible, & .MuiAutocomplete-paper li.MuiAutocomplete-option:hover":
-                  {
-                    backgroundColor: "#F2B843",
-                  },
-              }}
-              label="Search Token ID"
-              value={token}
-              onChange={handleChangeToken}
-              style={{ marginRight: "1rem" }}
-            />
-            <TextField
-              onKeyPress={handleKeyPress}
-              sx={{
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#F2B843",
-                },
-                "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
-                  color: "#F2B843",
-                },
-                "& .MuiAutocomplete-clearIndicator .MuiSvgIcon-root": {
-                  color: "#F2B843",
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#F2B843",
-                  boxShadow: "0 0 5px 0 #F2B843",
-                },
-                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#3D3EC2",
-                    boxShadow: "0 0 5px 0 #3D3EC2",
-                  },
-                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input":
-                  {
-                    color: "#BCBFC3",
-                  },
-                "& .MuiInputLabel-outlined.Mui-focused": {
-                  color: "#BCBFC3",
-                },
-                "& .MuiOutlinedInput-input": {
-                  color: "#BCBFC3",
-                },
-                "& label.Mui-focused": {
-                  color: "#3D3EC2",
-                },
-
-                "& .MuiAutocomplete-paper li.MuiAutocomplete-option.Mui-focusVisible, & .MuiAutocomplete-paper li.MuiAutocomplete-option:hover":
-                  {
-                    backgroundColor: "#F2B843",
-                  },
-              }}
-              label="Search Inscription #"
-              value={insId}
-              onChange={handleChangeInsId}
-              style={{ marginRight: "1rem" }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleButtonPress}
-              sx={{
-                backgroundColor: "#3D3EC2",
-                color: "#ffffff",
-                paddingTop: "13px",
-                paddingBottom: "13px",
-                "&:hover": {
-                  backgroundColor: "#3D00C2",
-                  color: "#BCBFC3",
-                },
-              }}
-            >
-              Search
-            </Button>
           </div>
 
           <Paper
@@ -1342,6 +1511,14 @@ export default function Collectiontable() {
               contractAddress={contractAddress}
               collectionSupply={collectionSupply}
               totalInscribed={totalInscribed}
+              traits={traits}
+              handleKeyPress={handleKeyPress}
+              token={token}
+              handleChangeToken={handleChangeToken}
+              insId={insId}
+              handleChangeInsId={handleChangeInsId}
+              handleButtonPress={handleButtonPress}
+              filterData={filterData}
             />
             <TableContainer component={Paper}>
               <Table
@@ -1413,22 +1590,60 @@ export default function Collectiontable() {
                     ))
                   ) : (
                     <>
-                      {stableSort(sortedData, getComparator(order, orderBy))
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                        .map((data, index) => {
-                          return (
-                            <Row
-                              key={data.token_id}
-                              row={data}
-                              isOpen={openRowIndex === index}
-                              onClick={() => handleRowClick(index)}
-                              collectionName={collectionName}
-                            />
-                          );
-                        })}
+                      {filteredData.length > 0 ? (
+                        <>
+                          {stableSort(
+                            filteredData,
+                            getComparator(order, orderBy)
+                          )
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((data, index) => {
+                              return (
+                                <Row
+                                  key={data.token_id}
+                                  row={data}
+                                  isOpen={openRowIndex === index}
+                                  onClick={() => handleRowClick(index)}
+                                  collectionName={collectionName}
+                                />
+                              );
+                            })}
+                        </>
+                      ) : (
+                        <>
+                        {notFound ? (
+                          <>
+                          <TableRow>
+          <TableCell align="center" colSpan={12} sx={{fontSize:"1.5rem", color: "#CA1F3D", fontWeight:"700", paddingY:"1rem"}}>
+            No Match Found!
+          </TableCell>
+        </TableRow>
+                        </>
+                        ) : (
+                          <>
+                          {stableSort(sortedData, getComparator(order, orderBy))
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((data, index) => {
+                              return (
+                                <Row
+                                  key={data.token_id}
+                                  row={data}
+                                  isOpen={openRowIndex === index}
+                                  onClick={() => handleRowClick(index)}
+                                  collectionName={collectionName}
+                                />
+                              );
+                            })}
+                        </>
+                        )}
+                       </> 
+                      )}
                       {emptyRows > 0 && (
                         <TableRow
                           style={{
@@ -1446,7 +1661,7 @@ export default function Collectiontable() {
             <TablePagination
               rowsPerPageOptions={[100, 150, 200]}
               component="div"
-              count={sortedData.length}
+              count={filteredData.length ? filteredData.length : sortedData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -1455,6 +1670,6 @@ export default function Collectiontable() {
           </Paper>
         </Box>
       </>
-    </div>
+    </Box>
   );
 }

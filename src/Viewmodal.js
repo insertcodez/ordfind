@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import { Card, CardContent } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -46,7 +47,12 @@ export default function BasicModal(props) {
               id="modal-modal-title"
               variant="h6"
               component="h2"
-              sx={{ color: "#F2B843", fontSize: "1.3rem", fontWeight:"700", wordBreak:"break-word" }}
+              sx={{
+                color: "#F2B843",
+                fontSize: "1.3rem",
+                fontWeight: "700",
+                wordBreak: "break-word",
+              }}
             >
               {collectionLabel} #{currentData.token_id}
             </Typography>
@@ -57,7 +63,10 @@ export default function BasicModal(props) {
               Status :{" "}
               {currentData.ordinalmatch ? "Inscribed" : "Not Inscribed"}
             </Typography>
-            <Typography id="modal-modal-description" sx={{ fontSize: "1.1rem" }}>
+            <Typography
+              id="modal-modal-description"
+              sx={{ fontSize: "1.1rem" }}
+            >
               Original Inscription :{" "}
               {currentData.ordinalmatch ? (
                 <a
@@ -159,9 +168,35 @@ export default function BasicModal(props) {
               sx={{ fontSize: "1.1rem" }}
             >
               SHA-256 Hash : {currentData.hashfield.slice(0, 6)}...
-                    {currentData.hashfield.slice(-6)}{" "}
+              {currentData.hashfield.slice(-6)}{" "}
             </Typography>
 
+            <Typography
+              id="modal-modal-description"
+              sx={{ fontSize: "1.1rem" }}
+            >
+              Traits :
+            </Typography>
+            <div>
+            {currentData.attributes.map((trait) => (
+              <Button key={trait.value} sx={{ border:"2px solid #3d3ec2", marginRight:"0.4rem", marginTop:"0.4rem" }}>
+                
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{
+                    color: "#F2B843",
+                    fontSize: "0.9rem",
+                    
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {trait.value}
+                </Typography>
+              </Button>
+            ))}
+            </div>
             <Button
               onClick={handleViewClose}
               sx={{

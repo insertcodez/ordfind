@@ -337,7 +337,14 @@ export default function Findbyhash() {
   };
 
   return (
-    <div className="App-header">
+    <Box sx={{
+      backgroundColor:"#1A2027",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "calc(10px + 2vmin)"
+      }}>
       <Box sx={{ width: "90%", maxWidth: "1080px", mb: "2rem", mt: "2rem" }}>
         <div style={{ alignContent: "flex-start", display: "flex" }}>
         <Link to="/">
@@ -446,12 +453,13 @@ export default function Findbyhash() {
             sx={{
               background: "linear-gradient(45deg, #3d3ec2, #f2b843)",
               backgroundSize: "100% 100%",
+              paddingX: "1.3rem",
               color: "#f8f8ff",
               mb: "30px",
               textTransform: "none",
               fontSize: {
-                xs: "1.0rem",
-                sm: "1.0rem",
+                xs: "1.1rem",
+                sm: "1.1rem",
                 md: "1.1rem",
                 lg: "1.1rem",
                 xl: "1.1rem",
@@ -461,14 +469,14 @@ export default function Findbyhash() {
                 color: "#f8f8ff",
                 background: "linear-gradient(45deg, #f2b843, #3d3ec2)",
               },
-              // "&:hover": { color: "#f8f8ff", backgroundColor: "#4957a5" },
+              
             }}
           >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                lineHeight: "1.2",
+                lineHeight: "2.0",
               }}
             >
               Browse ETH Collections
@@ -933,6 +941,6 @@ export default function Findbyhash() {
         </div>
       </Box>
       <Disclaimermodal />
-    </div>
+    </Box>
   );
 }
