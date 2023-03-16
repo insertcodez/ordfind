@@ -1319,10 +1319,6 @@ export default function Collectiontable() {
     }
   };
 
-  const handleBlur = (event) => {
-    event.target.blur();
-  };
-
   return (
     <Box sx={{
       backgroundColor:"#1A2027",
@@ -1406,7 +1402,7 @@ export default function Collectiontable() {
             }}
           >
             <Autocomplete
-              onBlur={handleBlur}
+              blurOnSelect
               sx={{
                 width: {
                   xs: "100%",

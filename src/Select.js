@@ -41,6 +41,7 @@ export default function Tags(props) {
 
   return (
     <Autocomplete
+    blurOnSelect
       PaperComponent={({ children }) => (
         <Box
           sx={{
@@ -121,7 +122,7 @@ export default function Tags(props) {
       }}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
-          <Chip sx={{color: "#f2b843",borderColor:"#f2b843", fontSize:"0.9rem"}}
+          <Chip sx={{color: "#1e1e1e", backgroundColor:"#f2b843", fontSize:"0.9rem"}}
             variant="outlined"
             label={`${option.label} (${option.count})`}
             {...getTagProps({ index })}
