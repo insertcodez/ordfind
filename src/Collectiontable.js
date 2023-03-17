@@ -484,7 +484,7 @@ function Row(props) {
         sx={{
           "& > *": {
             borderBottom: "unset",
-            borderTop: isOpen ? "unset" : "1px solid rgba(245, 245, 245, 0.2)",
+            borderTop:"1px solid rgba(245, 245, 245, 0.2)",
             cursor: {
               xs: "pointer",
               sm: "pointer",
@@ -1432,10 +1432,10 @@ export default function Collectiontable() {
                     color: "3D3EC2",
                   },
                 "& .MuiInputLabel-outlined.Mui-focused": {
-                  color: "#BCBFC3",
+                  color: "#f8f8ff",
                 },
                 "& .MuiOutlinedInput-input": {
-                  color: "#BCBFC3",
+                  color: "#f8f8ff",
                 },
                 "& label.Mui-focused": {
                   color: "3D3EC2",
@@ -1498,6 +1498,9 @@ export default function Collectiontable() {
               width: "100%",
               mb: 2,
               borderRadius: "10px",
+              
+        border: "1px solid #F2B843",
+        boxShadow: "0 0 10px #F2B843"
             }}
           >
             <EnhancedTableToolbar
@@ -1532,7 +1535,9 @@ export default function Collectiontable() {
                   onRequestSort={handleRequestSort}
                 />
 
-                <TableBody>
+                <TableBody sx={{borderRadius: "5px",
+        border: "1px solid #F2B843",
+        boxShadow: "0 0 10px #F2B843",}}>
                   {loading ? (
                     rows.map((row) => (
                       <TableRow key={row.id}>
