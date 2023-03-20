@@ -1040,7 +1040,6 @@ export default function Collectiontable() {
 
   function filterData(selectedOptions) {
     if (selectedOptions) {
-      console.log(selectedOptions);
       const filtered = sortedData.filter((token) =>
         selectedOptions.every((option) =>
           token.attributes.some((attr) => attr.value == option.label)
@@ -1178,7 +1177,6 @@ export default function Collectiontable() {
           };
         });
         setCollectionList(formattedData);
-        console.log(formattedData);
 
         setCollection(formattedData[0]);
       })
@@ -1200,8 +1198,6 @@ export default function Collectiontable() {
           setCollectionSupply(data.collectionSupply);
           setTotalInscribed(data.totalInscribed);
           setTraits(data.Categories);
-          console.log(data.Categories);
-          console.log(traits);
         })
         .catch((error) => console.log(error));
     }
