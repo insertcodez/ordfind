@@ -1388,7 +1388,7 @@ export default function Collectiontable() {
                 margin: "auto",
               }}
             >
-              Find & Verify Original Ordinal Inscriptions of ETH NFT Collections
+              Find & Verify Byte-Perfect Ordinal Inscriptions of ETH NFT Collections
             </Typography>
 
             <p style={{ fontSize: "1.5rem" }}></p>

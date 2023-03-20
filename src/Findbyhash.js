@@ -438,7 +438,7 @@ export default function Findbyhash() {
             borderRadius: "5px",
 
             width: {
-              xs: "80%",
+              xs: "100%",
               sm: "55%",
               md: "50%",
               lg: "45%",
