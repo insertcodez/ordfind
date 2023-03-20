@@ -983,7 +983,7 @@ function Row(props) {
               </div>
               <div>
             {row.attributes.map((trait) => (
-              <Button key={trait.value} sx={{ border:"2px solid #3d3ec2", marginRight:"0.4rem", marginTop:"0.4rem" }}>
+              <Button key={trait.value} sx={{ cursor:"default", border:"2px solid #3d3ec2", marginRight:"0.4rem", marginTop:"0.4rem" }}>
                 
                 <Typography
                   id="modal-modal-title"
@@ -992,7 +992,7 @@ function Row(props) {
                   sx={{
                     color: "#F2B843",
                     fontSize: "0.9rem",
-                    
+                    fontWeight:"700",
                     wordBreak: "break-word",
                   }}
                 >
