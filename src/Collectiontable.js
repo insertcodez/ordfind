@@ -476,7 +476,7 @@ function EnhancedTableToolbar(props) {
         )}
         <Typography
           sx={{
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: "1rem",
             lineHeight: "1.5",
             textAlign: "right",
