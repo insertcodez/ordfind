@@ -189,7 +189,7 @@ export default function BasicModal(props) {
                   sx={{
                     color: "#F2B843",
                     fontSize: "0.9rem",
-                    
+                    fontWeight: "700",
                     wordBreak: "break-word",
                   }}
                 >

@@ -227,6 +227,9 @@ function EnhancedTableToolbar(props) {
     handleChangeInsId,
     handleButtonPress,
     filterData,
+    filteredDataLength,
+    sortedDataLength,
+    notFound,
   } = props;
   return (
     <Toolbar
@@ -463,10 +466,38 @@ function EnhancedTableToolbar(props) {
           </Button>
         </div>
         {traits ? (
-          <Select traits={traits} applyFilter={filterData} />
+          <Select
+            traits={traits}
+            applyFilter={filterData}
+            cName={collectionName}
+          />
         ) : (
           <Skeleton animation="wave" width="100%" height={80} />
-        ) }
+        )}
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: "1rem",
+            lineHeight: "1.5",
+            textAlign: "right",
+            paddingRight: "0.5rem",
+          }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          {loading ? (
+            <Skeleton animation="wave" width="100%" height={35} />
+          ) : (
+            <>
+              Found{" "}
+              {filteredDataLength > 0 || notFound
+                ? filteredDataLength
+                : sortedDataLength}{" "}
+              Results
+            </>
+          )}
+        </Typography>
       </Box>
     </Toolbar>
   );
@@ -484,7 +515,7 @@ function Row(props) {
         sx={{
           "& > *": {
             borderBottom: "unset",
-            borderTop:"1px solid rgba(245, 245, 245, 0.2)",
+            borderTop: "1px solid rgba(245, 245, 245, 0.2)",
             cursor: {
               xs: "pointer",
               sm: "pointer",
@@ -755,7 +786,7 @@ function Row(props) {
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={isOpen} timeout="auto" unmountOnExit>
-            <Box sx={{ marginTop:1,  marginBottom:2 }}>
+            <Box sx={{ marginTop: 1, marginBottom: 2 }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
                   sx={{
@@ -978,29 +1009,36 @@ function Row(props) {
                     mt: 1,
                   }}
                 >
-                  Traits : 
+                  Traits :
                 </Typography>
               </div>
               <div>
-            {row.attributes.map((trait) => (
-              <Button key={trait.value} sx={{ cursor:"default", border:"2px solid #3d3ec2", marginRight:"0.4rem", marginTop:"0.4rem" }}>
-                
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  component="h2"
-                  sx={{
-                    color: "#F2B843",
-                    fontSize: "0.9rem",
-                    fontWeight:"700",
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {trait.value}
-                </Typography>
-              </Button>
-            ))}
-            </div>
+                {row.attributes.map((trait) => (
+                  <Button
+                    key={trait.value}
+                    sx={{
+                      cursor: "default",
+                      border: "2px solid #3d3ec2",
+                      marginRight: "0.4rem",
+                      marginTop: "0.4rem",
+                    }}
+                  >
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      sx={{
+                        color: "#F2B843",
+                        fontSize: "0.9rem",
+                        fontWeight: "700",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {trait.value}
+                    </Typography>
+                  </Button>
+                ))}
+              </div>
             </Box>
           </Collapse>
         </TableCell>
@@ -1045,13 +1083,12 @@ export default function Collectiontable() {
           token.attributes.some((attr) => attr.value == option.label)
         )
       );
-      if (selectedOptions.length > 0 && filtered.length <= 0 ) {
+      if (selectedOptions.length > 0 && filtered.length <= 0) {
         setNotFound(true);
         setFilteredData([]);
       } else {
         setFilteredData(filtered);
         setNotFound(false);
-        
       }
     } else {
       setFilteredData([]);
@@ -1112,9 +1149,7 @@ export default function Collectiontable() {
   };
 
   const handleSearch = () => {
-    const searchData = jsonData.find(
-      (obj) => obj.token_id == token
-    );
+    const searchData = jsonData.find((obj) => obj.token_id == token);
     setSearchedData(searchData);
     if (!searchData) {
       handleClick();
@@ -1227,7 +1262,7 @@ export default function Collectiontable() {
       setOrderBy(property);
 
       if (property === "token_id") {
-        const sortData = filteredData.sort((a, b) => {
+        const sortFilterData = filteredData.sort((a, b) => {
           if (isAsc) {
             return a[property] > b[property] ? 1 : -1;
           } else {
@@ -1235,9 +1270,9 @@ export default function Collectiontable() {
           }
         });
 
-        setFilteredData(sortData);
+        setFilteredData(sortFilterData);
       } else if (property === "inscription") {
-        const sortData = filteredData
+        const sortFilterData = filteredData
           .filter((obj) => obj.hasOwnProperty("ordinalmatch"))
           .sort((a, b) =>
             isAsc
@@ -1245,12 +1280,11 @@ export default function Collectiontable() {
               : b.ordinalmatch[0].id - a.ordinalmatch[0].id
           )
           .concat(
-            jsonData.filter((obj) => !obj.hasOwnProperty("ordinalmatch"))
+            filteredData.filter((obj) => !obj.hasOwnProperty("ordinalmatch"))
           );
-
-        setFilteredData(sortData);
+        setFilteredData(sortFilterData);
       } else if (property === "Status") {
-        const sortData = [...filteredData].sort((a, b) => {
+        const sortFilterData = [...filteredData].sort((a, b) => {
           const aHasOrdinalmatch = a.hasOwnProperty("ordinalmatch");
           const bHasOrdinalmatch = b.hasOwnProperty("ordinalmatch");
 
@@ -1264,7 +1298,7 @@ export default function Collectiontable() {
             return isAsc ? indexA - indexB : indexB - indexA;
           }
         });
-        setFilteredData(sortData);
+        setFilteredData(sortFilterData);
       }
     } else {
       setSearchedData(null);
@@ -1316,14 +1350,16 @@ export default function Collectiontable() {
   };
 
   return (
-    <Box sx={{
-      backgroundColor:"#1A2027",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: "calc(10px + 2vmin)"
-      }}>
+    <Box
+      sx={{
+        backgroundColor: "#1A2027",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "calc(10px + 2vmin)",
+      }}
+    >
       <>
         <Collectiondisclaimer />
         {openView && searchedData && (
@@ -1384,7 +1420,8 @@ export default function Collectiontable() {
                 margin: "auto",
               }}
             >
-              Find & Verify Byte-Perfect Ordinal Inscriptions of ETH NFT Collections
+              Find & Verify Byte-Perfect Ordinal Inscriptions of ETH NFT
+              Collections
             </Typography>
 
             <p style={{ fontSize: "1.5rem" }}></p>
@@ -1407,7 +1444,7 @@ export default function Collectiontable() {
                   lg: 300,
                   xl: 300,
                 },
-           
+
                 "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
                   color: "#F2B843",
                 },
@@ -1475,7 +1512,6 @@ export default function Collectiontable() {
                   {children}
                 </Paper>
               )}
-     
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -1494,9 +1530,9 @@ export default function Collectiontable() {
               width: "100%",
               mb: 2,
               borderRadius: "10px",
-              
-        border: "1px solid #F2B843",
-        boxShadow: "0 0 10px #F2B843"
+
+              border: "1px solid #F2B843",
+              boxShadow: "0 0 10px #F2B843",
             }}
           >
             <EnhancedTableToolbar
@@ -1514,6 +1550,9 @@ export default function Collectiontable() {
               handleChangeInsId={handleChangeInsId}
               handleButtonPress={handleButtonPress}
               filterData={filterData}
+              filteredDataLength={filteredData.length}
+              sortedDataLength={sortedData.length}
+              notFound={notFound}
             />
             <TableContainer component={Paper}>
               <Table
@@ -1531,9 +1570,13 @@ export default function Collectiontable() {
                   onRequestSort={handleRequestSort}
                 />
 
-                <TableBody sx={{borderRadius: "5px",
-        border: "1px solid #F2B843",
-        boxShadow: "0 0 10px #F2B843",}}>
+                <TableBody
+                  sx={{
+                    borderRadius: "5px",
+                    border: "1px solid #F2B843",
+                    boxShadow: "0 0 10px #F2B843",
+                  }}
+                >
                   {loading ? (
                     rows.map((row) => (
                       <TableRow key={row.id}>
@@ -1611,35 +1654,47 @@ export default function Collectiontable() {
                         </>
                       ) : (
                         <>
-                        {notFound ? (
-                          <>
-                          <TableRow>
-          <TableCell align="center" colSpan={12} sx={{fontSize:"1.5rem", color: "#CA1F3D", fontWeight:"700", paddingY:"1rem"}}>
-            No Match Found!
-          </TableCell>
-        </TableRow>
+                          {notFound ? (
+                            <>
+                              <TableRow>
+                                <TableCell
+                                  align="center"
+                                  colSpan={12}
+                                  sx={{
+                                    fontSize: "1.5rem",
+                                    color: "#CA1F3D",
+                                    fontWeight: "700",
+                                    paddingY: "1rem",
+                                  }}
+                                >
+                                  No Match Found!
+                                </TableCell>
+                              </TableRow>
+                            </>
+                          ) : (
+                            <>
+                              {stableSort(
+                                sortedData,
+                                getComparator(order, orderBy)
+                              )
+                                .slice(
+                                  page * rowsPerPage,
+                                  page * rowsPerPage + rowsPerPage
+                                )
+                                .map((data, index) => {
+                                  return (
+                                    <Row
+                                      key={data.token_id}
+                                      row={data}
+                                      isOpen={openRowIndex === index}
+                                      onClick={() => handleRowClick(index)}
+                                      collectionName={collectionName}
+                                    />
+                                  );
+                                })}
+                            </>
+                          )}
                         </>
-                        ) : (
-                          <>
-                          {stableSort(sortedData, getComparator(order, orderBy))
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
-                            .map((data, index) => {
-                              return (
-                                <Row
-                                  key={data.token_id}
-                                  row={data}
-                                  isOpen={openRowIndex === index}
-                                  onClick={() => handleRowClick(index)}
-                                  collectionName={collectionName}
-                                />
-                              );
-                            })}
-                        </>
-                        )}
-                       </> 
                       )}
                       {emptyRows > 0 && (
                         <TableRow
@@ -1658,7 +1713,9 @@ export default function Collectiontable() {
             <TablePagination
               rowsPerPageOptions={[100, 150, 200]}
               component="div"
-              count={filteredData.length ? filteredData.length : sortedData.length}
+              count={
+                filteredData.length ? filteredData.length : sortedData.length
+              }
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

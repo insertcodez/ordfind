@@ -3,11 +3,11 @@ import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import { useState, useEffect } from "react";
 
 export default function Tags(props) {
-  const { traits, applyFilter } = props;
-  const [selectedOptions, setSelectedOptions] = React.useState([]);
+  const { traits, applyFilter, cName } = props;
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const options = [];
   traits.forEach((category) => {
@@ -21,45 +21,48 @@ export default function Tags(props) {
   });
 
   const handleSelectedOptions = (event, value) => {
-    const isOptionSelected = selectedOptions.some((item) => item.label == value.label);
+    const isOptionSelected = selectedOptions.some(
+      (item) => item.label == value.label
+    );
     if (isOptionSelected) {
       return;
-    }else {
+    } else {
       setSelectedOptions(value);
-      console.log(value);
       applyFilter(value);
-    
     }
-    
   };
 
+  useEffect(() => {
+    setSelectedOptions([]);
+    applyFilter();
+  }, [cName]);
+
   const isOptionEqualToValue = (option, value) =>
-  option.label === value.label &&
-  option.count === value.count &&
-  option.group === value.group;
-  
+    option.label === value.label &&
+    option.count === value.count &&
+    option.group === value.group;
 
   return (
     <Autocomplete
-    blurOnSelect
+      blurOnSelect
       PaperComponent={({ children }) => (
         <Box
           sx={{
-            
             border: "1px solid #3D3EC2",
             boxShadow: "0 0 10px 0 #3D3EC2",
             color: "#F2B843",
             backgroundColor: "#1a2027",
-            '& .MuiAutocomplete-groupLabel': {
-              fontSize: '1rem',
+            "& .MuiAutocomplete-groupLabel": {
+              fontSize: "1rem",
             },
           }}
         >
           {children}
         </Box>
       )}
-      
-      sx={{ paddingTop:"0.5rem", paddingBottom:"0.8rem",
+      sx={{
+        paddingTop: "0.5rem",
+        paddingBottom: "0.8rem",
         "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": {
           color: "#F2B843",
         },
@@ -105,26 +108,35 @@ export default function Tags(props) {
       groupBy={(option) => option.group}
       getOptionLabel={(option) => option.label}
       renderOption={(props, option) => {
-        const isOptionSelected = selectedOptions.some((item) => item.label == option.label);
+        const isOptionSelected = selectedOptions.some(
+          (item) => item.label == option.label
+        );
         return (
           <li
-          {...props}
-          style={{
-            backgroundColor: isOptionSelected ? '#f2b843' : '#262626',
-        color: isOptionSelected ? 'black' : '#f8f8ff',
-            fontSize: "1rem",
-          }}
-        >
-          {option.label} ({option.count})
-        </li>
-        )
-        
+            {...props}
+            style={{
+              backgroundColor: isOptionSelected ? "#f2b843" : "#262626",
+              color: isOptionSelected ? "black" : "#f8f8ff",
+              fontSize: "1rem",
+            }}
+          >
+            {option.label} ({option.count})
+          </li>
+        );
       }}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
-          <Chip sx={{color: "#1e1e1e", backgroundColor:"#f2b843", borderColor:"#f2b843", fontSize:"0.9rem", fontWeight:"700", '& .MuiChip-deleteIcon': {
-            color: "#3D3EC2" // replace with the desired color
-          }}}
+          <Chip
+            sx={{
+              color: "#1e1e1e",
+              backgroundColor: "#f2b843",
+              borderColor: "#f2b843",
+              fontSize: "0.9rem",
+              fontWeight: "700",
+              "& .MuiChip-deleteIcon": {
+                color: "#3D3EC2", // replace with the desired color
+              },
+            }}
             variant="outlined"
             label={`${option.label} (${option.count})`}
             {...getTagProps({ index })}
@@ -137,7 +149,9 @@ export default function Tags(props) {
         <TextField
           {...params}
           label="Filter By Attributes"
-          placeholder={selectedOptions.length === 0 ? "Filter By Attributes" : null}
+          placeholder={
+            selectedOptions.length === 0 ? "Filter By Attributes" : null
+          }
         />
       )}
     />
