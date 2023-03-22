@@ -121,10 +121,10 @@ const headCells = [
     hideSortLabel: true,
   },
   {
-    id: "Ordswap",
+    id: "OrdinalsWallet",
     numeric: true,
     disablePadding: false,
-    label: "Ordswap",
+    label: "OrdinalsWallet",
     hideSortLabel: true,
   },
 ];
@@ -146,19 +146,19 @@ function EnhancedTableHead(props) {
               lineHeight: "1.5",
               display: {
                 xs:
-                  headCell.id === "Ordswap" ||
+                  headCell.id === "OrdinalsWallet" ||
                   headCell.id === "Ordinal" ||
                   headCell.id === "image_url" ||
                   headCell.id === "hashValue"
                     ? "none"
                     : "table-cell",
                 sm:
-                  headCell.id === "Ordswap" ||
+                  headCell.id === "OrdinalsWallet" ||
                   headCell.id === "Ordinal" ||
                   headCell.id === "image_url"
                     ? "none"
                     : "table-cell",
-                md: headCell.id === "Ordswap" ? "none" : "table-cell",
+                md: headCell.id === "OrdinalsWallet" ? "none" : "table-cell",
                 lg: "table-cell",
                 xl: "table-cell",
               },
@@ -690,12 +690,12 @@ function Row(props) {
           align="right"
         >
           {row.ordinalmatch ? (
-            <LightTooltip title="View In Ordswap" followCursor>
+            <LightTooltip title="View In OrdinalsWallet" followCursor>
               <button
                 type="button"
                 onClick={() =>
                   window.open(
-                    `https://ordswap.io/inscription/${row.ordinalmatch[0].url
+                    `https://ordinalswallet.com/inscription/${row.ordinalmatch[0].url
                       .split("/")
                       .slice(-1)}`,
                     "_blank"
@@ -878,12 +878,12 @@ function Row(props) {
                     }}
                   >
                     <span style={{ display: "flex", alignItems: "center" }}>
-                      OrdSwap :
+                    OrdinalsWallet :
                       <button
                         type="button"
                         onClick={() =>
                           window.open(
-                            `https://ordswap.io/inscription/${row.ordinalmatch[0].url
+                            `https://ordinalswallet.com/inscription/${row.ordinalmatch[0].url
                               .split("/")
                               .slice(-1)}`,
                             "_blank"
@@ -922,7 +922,7 @@ function Row(props) {
                     }}
                   >
                     <span style={{ display: "flex", alignItems: "center" }}>
-                      OrdSwap : -
+                      OrdinalsWallet : -
                     </span>
                   </Typography>
                 )}
